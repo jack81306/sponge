@@ -5,12 +5,22 @@
 
 #include <cstdint>
 #include <string>
+#include <utility>
+#include <list>
+
+#define SEGMENT_DATA std::pair<uint64_t, std::string>
 
 //! \brief A class that assembles a series of excerpts from a byte stream (possibly out of order,
 //! possibly overlapping) into an in-order byte stream.
 class StreamReassembler {
   private:
     // Your code here -- add private members as necessary.
+    uint64_t wait_index = 0; // substring equal to this, can push to byte stream
+    uint64_t total_size = 0;
+  
+    std::pair<bool, uint64_t> end_idx = {false, 0};
+    std::list<SEGMENT_DATA> l;
+
 
     ByteStream _output;  //!< The reassembled in-order byte stream
     size_t _capacity;    //!< The maximum number of bytes
