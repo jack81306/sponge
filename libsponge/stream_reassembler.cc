@@ -44,6 +44,14 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
         end_idx.second = index + data.size();
     }
 
+    //if data is empty, just check eof
+    if(data.size() == 0){
+        if (end_idx.first && end_idx.second == wait_index) {
+            _output.end_input();
+        }
+        return;
+    }
+
     //total exceed capacity
     if (index > _output.bytes_read() + _capacity) return;
     //duplicate data in byte stream

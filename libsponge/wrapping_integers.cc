@@ -39,6 +39,7 @@ uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
         raw_seq -= isn.raw_value();
     }
 
+    //maybe is >= ?
     if (raw_seq > checkpoint) {
         return raw_seq;
     }
