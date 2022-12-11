@@ -9,6 +9,8 @@
 #include <functional>
 #include <queue>
 
+//outline: turning bytestream to tcp segment
+
 //! \brief The "sender" part of a TCP implementation.
 
 //! Accepts a ByteStream, divides it up into segments and sends the
@@ -25,12 +27,29 @@ class TCPSender {
 
     //! retransmission timer for the connection
     unsigned int _initial_retransmission_timeout;
+    unsigned int rto{0};
+    unsigned int retransmission_timeout{0};
+
 
     //! outgoing stream of bytes that have not yet been sent
     ByteStream _stream;
 
     //! the (absolute) sequence number for the next byte to be sent
     uint64_t _next_seqno{0};
+
+    unsigned int consecutive_cnt{0};
+
+    uint64_t absolute_ack{0};
+
+    size_t bytes_flight{0};
+
+    uint16_t wsize{1};
+
+    std::list<TCPSegment> keep_seg;
+
+    bool send_syn{false};
+    bool send_fin{false};
+    bool wsize_zero{false};
 
   public:
     //! Initialize a TCPSender
